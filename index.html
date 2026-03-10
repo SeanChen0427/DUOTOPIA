@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duotopia 社群分析報告 | 權威增長策略</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Playfair Display (Serif) for Authority, Inter (Sans) for Readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                        serif: ['"Noto Serif TC"', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            orange: '#f97316',
+                            green: '#1b4332',
+                            dark: '#0f172a',
+                            light: '#f8fafc',
+                            accent: '#d97706' // Gold-ish for authority
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0b1120;
+            color: #e2e8f0;
+            font-size: 17px; /* Base font size meets requirement */
+            line-height: 1.7;
+        }
+        
+        /* Premium custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f97316; 
+        }
+
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Initial state for GSAP animations to prevent FOUC */
+        .gsap-reveal {
+            visibility: hidden;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.15), transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(27, 67, 50, 0.3), transparent 40%);
+        }
+        
+        .number-watermark {
+            font-size: 12rem;
+            line-height: 1;
+            font-weight: 900;
+            color: rgba(255,255,255,0.03);
+            position: absolute;
+            top: -2rem;
+            right: 0;
+            z-index: 0;
+            font-family: 'Noto Serif TC', serif;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-orange selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="font-serif font-bold text-2xl tracking-widest text-white">
+                DUOTOPIA<span class="text-brand-orange">.</span>
+            </div>
+            <div class="hidden md:flex gap-8 text-[16px] font-medium text-slate-300">
+                <a href="#goals" target="_self" class="hover:text-brand-orange transition-colors">核心目標</a>
+                <a href="#audience" target="_self" class="hover:text-brand-orange transition-colors">目標受眾</a>
+                <a href="#resources" target="_self" class="hover:text-brand-orange transition-colors">資源與限制</a>
+                <a href="#competition" target="_self" class="hover:text-brand-orange transition-colors">競爭分析</a>
+                <a href="#strategy" target="_self" class="hover:text-brand-orange transition-colors">內容策略</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center pt-20 overflow-hidden hero-gradient">
+        <div class="max-w-7xl mx-auto px-6 relative z-10 grid lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7 gsap-reveal">
+                <div class="inline-block border border-brand-orange/30 rounded-full px-4 py-1.5 mb-6 bg-brand-orange/10">
+                    <span class="text-brand-orange font-bold tracking-[0.2em] uppercase text-sm">Executive Strategy Report</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-serif font-black leading-[1.1] mb-8 text-white">
+                    重塑教育科技的<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-amber-300">社群影響力與權威</span>
+                </h1>
+                
+                <blockquote class="text-[18px] md:text-xl text-slate-300 leading-relaxed mb-10 border-l-4 border-brand-orange pl-6 py-2 bg-slate-800/30 rounded-r-lg">
+                    這不僅是一份分析，更是讓教育市場將 Duotopia 視為取代傳統紙本與零散數位工具的<strong>唯一整合方案</strong>之實戰藍圖。
+                </blockquote>
+
+                <a href="#goals" target="_self" class="inline-flex items-center gap-3 bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 px-8 rounded-full transition-all duration-300 shadow-[0_0_30px_rgba(249,115,22,0.3)] hover:shadow-[0_0_40px_rgba(249,115,22,0.5)] text-[16px] group">
+                    開始閱覽報告
+                    <svg class="w-5 h-5 group-hover:translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </a>
+            </div>
+
+            <div class="lg:col-span-5 gsap-reveal relative">
+                <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-700 aspect-[4/5] lg:aspect-auto lg:h-[600px] group">
+                    <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop" alt="" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b1120] via-[#0b1120]/40 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 w-full p-8">
+                        <div class="glass-nav p-5 rounded-xl border border-slate-600/50 backdrop-blur-md transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                            <p class="font-serif text-lg text-white mb-2">"建立社群信任，是 SaaS 縮短 B2B 決策週期的唯一捷徑。"</p>
+                            <p class="text-sm text-brand-orange font-bold">— Growth Strategy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Section I: Goals -->
+    <section id="goals" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="gsap-reveal mb-16">
+                <span class="text-brand-orange font-bold text-lg tracking-widest block mb-2">SECTION 01</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white">一、 確立核心商業目標</h2>
+                <p class="text-[18px] text-slate-400 mt-4 max-w-3xl">對於一套針對教育機構的 SaaS（軟體即服務）產品，社群的終極目標在於獲取潛在客戶名單 (Lead Generation) 與 推動試用/系統導入。</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-card p-10 rounded-2xl relative overflow-hidden gsap-reveal border-t-4 border-t-brand-orange">
+                    <div class="number-watermark">01</div>
+                    <h3 class="text-2xl font-serif font-bold text-white mb-4 relative z-10">首要目標 <span class="text-brand-orange text-[18px]">(短期 - 轉換)</span></h3>
+                    <p class="text-[16px] text-slate-300 relative z-10 leading-relaxed">
+                        引導目標受眾加入 LINE 官方帳號，預約產品 Demo (線上展示) 或申請免費試用帳號，建立銷售漏斗的入口。
+                    </p>
+                </div>
+                
+                <div class="glass-card p-10 rounded-2xl relative overflow-hidden gsap-reveal border-t-4 border-t-brand-green">
+                    <div class="number-watermark">02</div>
+                    <h3 class="text-2xl font-serif font-bold text-white mb-4 relative z-10">次要目標 <span class="text-emerald-400 text-[18px]">(中長期 - 品牌)</span></h3>
+                    <p class="text-[16px] text-slate-300 relative z-10 leading-relaxed">
+                        在英語教學圈建立「AI備課與批改權威」的品牌定位。教育市場接受「教學POS系統」這個新概念，將 Duotopia 視為取代傳統紙本作業與零散數位工具（如 Kahoot、Quizlet）的唯一整合方案。
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-8 glass-card p-8 rounded-2xl flex flex-col md:flex-row items-center gap-6 gsap-reveal border border-slate-700">
+                <div class="w-16 h-16 rounded-full bg-brand-orange/20 flex items-center justify-center shrink-0">
+                    <svg class="w-8 h-8 text-brand-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold text-white mb-2">量化指標</h4>
+                    <p class="text-[16px] text-slate-300">每月 LINE 官方帳號新增好友數、主動詢問 Demo 數、社群貼文的專業分享數（Share）與收藏數（Save）。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section II: Target Audience -->
+    <section id="audience" class="py-32 bg-slate-900/50 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="gsap-reveal mb-16 text-center">
+                <span class="text-brand-orange font-bold text-lg tracking-widest block mb-2">SECTION 02</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">二、 精準描繪目標受眾</h2>
+                <p class="text-[18px] text-slate-400 mx-auto max-w-3xl">這套產品具有「購買決策者」與「實際使用者」不同的特性，必須分層溝通：</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-10">
+                <!-- Target 1 -->
+                <div class="glass-card p-10 rounded-3xl gsap-reveal hover:border-brand-orange/50 transition-colors duration-300">
+                    <div class="flex items-center gap-4 mb-8 pb-6 border-b border-slate-700">
+                        <div class="w-14 h-14 bg-brand-orange rounded-xl flex items-center justify-center text-white font-serif text-2xl font-bold">1</div>
+                        <div>
+                            <h3 class="text-2xl font-serif font-bold text-white">核心決策者</h3>
+                            <p class="text-brand-orange text-[16px] font-medium">美語機構負責人 / 補習班主任 (B2B)</p>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span> 痛點
+                            </h4>
+                            <p class="text-[16px] text-slate-300 bg-slate-800/50 p-4 rounded-lg">師資流動率高（老師被行政與批改壓垮）、教學品質難以標準化、面對家長時缺乏具體的「數據化成效」來證明學習進步、招生缺乏亮點。</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 渴望
+                            </h4>
+                            <p class="text-[16px] text-slate-300 bg-slate-800/50 p-4 rounded-lg">降低營運成本（提效）、方便管理所有教師教材（控管）、能讓家長買單的科技亮點（增值）。</p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-700">
+                            <h4 class="text-[16px] font-bold text-slate-400 mb-3 uppercase tracking-wider text-sm">溝通切角</h4>
+                            <div class="flex flex-wrap gap-2 text-[15px]">
+                                <span class="bg-slate-800 text-white px-3 py-1.5 rounded border border-slate-600">機構管理</span>
+                                <span class="bg-slate-800 text-white px-3 py-1.5 rounded border border-slate-600">業績增長</span>
+                                <span class="bg-slate-800 text-white px-3 py-1.5 rounded border border-slate-600">標準化教學</span>
+                                <span class="bg-slate-800 text-white px-3 py-1.5 rounded border border-slate-600">降低人事耗損</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Target 2 -->
+                <div class="glass-card p-10 rounded-3xl gsap-reveal hover:border-emerald-500/50 transition-colors duration-300">
+                    <div class="flex items-center gap-4 mb-8 pb-6 border-b border-slate-700">
+                        <div class="w-14 h-14 bg-emerald-700 rounded-xl flex items-center justify-center text-white font-serif text-2xl font-bold">2</div>
+                        <div>
+                            <h3 class="text-2xl font-serif font-bold text-white">核心使用者與影響者</h3>
+                            <p class="text-emerald-400 text-[16px] font-medium">ESL 教師 / 英語老師 (B2B2C)</p>
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span> 痛點
+                            </h4>
+                            <p class="text-[16px] text-slate-300 bg-slate-800/50 p-4 rounded-lg">課後作業改不完（繁瑣人工批改）、學生回家不主動練習、發音作業難以即時糾正、無法追蹤每個學生的弱項。</p>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> 渴望
+                            </h4>
+                            <p class="text-[16px] text-slate-300 bg-slate-800/50 p-4 rounded-lg">準時下班（省時）、備課輕鬆（一鍵派題）、上課氣氛好（遊戲化高互動）。</p>
+                        </div>
+                        <div class="pt-4 border-t border-slate-700">
+                            <h4 class="text-[16px] font-bold text-slate-400 mb-3 uppercase tracking-wider text-sm">溝通切角</h4>
+                            <div class="flex flex-wrap gap-2 text-[15px]">
+                                <span class="bg-slate-800 text-white px-3 py-1.5 rounded border border-slate-600">AI 備課神隊友</span>
+                                <span class="bg-slate-800 text-white px-3 py-1.5 rounded border border-slate-600">拯救批改地獄</span>
+                                <span class="bg-slate-800 text-white px-3 py-1.5 rounded border border-slate-600">讓學生主動開口的魔法</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section III: Resources & Limitations -->
+    <section id="resources" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="gsap-reveal mb-16">
+                <span class="text-brand-orange font-bold text-lg tracking-widest block mb-2">SECTION 03</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white">三、 盤點可用資源與限制</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Advantages -->
+                <div class="gsap-reveal">
+                    <h3 class="text-2xl font-serif text-white mb-8 pb-4 border-b-2 border-brand-orange inline-block">優勢與可用資源</h3>
+                    <ul class="space-y-6">
+                        <li class="flex gap-4">
+                            <div class="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-brand-orange/20 flex items-center justify-center text-brand-orange">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="text-[18px] font-bold text-white mb-1">強大的產品力</h4>
+                                <p class="text-[16px] text-slate-400">結合「AI語音辨識」、「艾賓浩斯記憶法」、「AI批次輔助批改」，這是非常具象且具備高科技感的賣點。</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-brand-orange/20 flex items-center justify-center text-brand-orange">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="text-[18px] font-bold text-white mb-1">完善的比較利器</h4>
+                                <p class="text-[16px] text-slate-400">已經具備與競品（WordWall, Kahoot, Quizlet）的明確差異化圖表，在社群上非常適合做為「打痛點」的素材。</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-brand-orange/20 flex items-center justify-center text-brand-orange">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="text-[18px] font-bold text-white mb-1">視覺與IP資產</h4>
+                                <p class="text-[16px] text-slate-400">簡報中已有一隻極具親和力的「橘色吉祥物」，以及一致的品牌色調（墨綠、橘色），有助於建立社群視覺記憶點。</p>
+                            </div>
+                        </li>
+                        <li class="flex gap-4">
+                            <div class="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-brand-orange/20 flex items-center justify-center text-brand-orange">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="text-[18px] font-bold text-white mb-1">已有數據背書</h4>
+                                <p class="text-[16px] text-slate-400">具備「1,000+ 老師信賴」、「1,000萬+ 口語提升」等 Social Proof (社會證明)。</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Limitations -->
+                <div class="gsap-reveal glass-card p-10 rounded-2xl border border-slate-700 bg-slate-800/30">
+                    <h3 class="text-2xl font-serif text-white mb-8 pb-4 border-b-2 border-slate-600 inline-block">挑戰與限制</h3>
+                    <ul class="space-y-8">
+                        <li class="relative pl-8">
+                            <div class="absolute left-0 top-1.5 w-2 h-2 rounded-full bg-slate-500"></div>
+                            <h4 class="text-[18px] font-bold text-white mb-2">B2B 決策週期長</h4>
+                            <p class="text-[16px] text-slate-400 bg-slate-900/50 p-4 rounded-lg border border-slate-700/50">補習班要更換系統需要極大的轉換成本，社群無法促成「衝動購物」，需要持續的內容教育與信任堆疊。</p>
+                        </li>
+                        <li class="relative pl-8">
+                            <div class="absolute left-0 top-1.5 w-2 h-2 rounded-full bg-slate-500"></div>
+                            <h4 class="text-[18px] font-bold text-white mb-2">教育成本高</h4>
+                            <p class="text-[16px] text-slate-400 bg-slate-900/50 p-4 rounded-lg border border-slate-700/50">「教學POS系統」是個創新的詞彙，市場原本沒有這個搜尋習慣，需要花費心力解釋它與一般測驗平台有何不同。</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section IV: Competition -->
+    <section id="competition" class="py-32 bg-[#080d17] relative border-y border-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-4xl mx-auto mb-16 gsap-reveal">
+                <span class="text-brand-orange font-bold text-lg tracking-widest block mb-2">SECTION 04</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-8">四、 競爭環境與現狀分析</h2>
+                <p class="text-[18px] text-slate-400">從您的資料中可看出，Duotopia 處於一個「降維打擊」的優勢位置，社群策略應強力放大小工具們的不足。</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-16">
+                <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 gsap-reveal">
+                    <h3 class="text-xl font-bold text-slate-300 mb-4 flex items-center gap-3">
+                        <svg class="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        現狀
+                    </h3>
+                    <p class="text-[16px] text-slate-400">老師們普遍習慣拼湊使用多種單一功能工具（用 WordWall 玩遊戲、用 Quizlet 背單字），導致資料破碎、學生需要登入多個平台、且機構無法傳承這些數位資產。</p>
+                </div>
+                <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 gsap-reveal">
+                    <h3 class="text-xl font-bold text-slate-300 mb-4 flex items-center gap-3">
+                        <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        競品弱點
+                    </h3>
+                    <p class="text-[16px] text-slate-400">缺乏「口語練習即時反饋機制」（英文教學的核心痛點）、缺乏「完整的學生學習曲線報告」（無法對家長交代）、缺乏「機構級別的教材共享」。</p>
+                </div>
+            </div>
+
+            <!-- Massive Blockquote for Authority -->
+            <div class="gsap-reveal glass-card p-12 md:p-16 rounded-3xl text-center relative overflow-hidden border border-brand-orange/20 shadow-[0_0_50px_rgba(249,115,22,0.1)]">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-green via-brand-orange to-brand-green"></div>
+                <h3 class="text-3xl font-serif font-bold text-brand-orange mb-6">Duotopia 突破口：主打「All-in-One 整合力」</h3>
+                <p class="text-[18px] md:text-xl text-white leading-relaxed max-w-4xl mx-auto font-medium">
+                    在社群上不只要強調「好玩」，更要強調「系統化」與「閉環學習（預習>練習>作業）」，將對手定位為<span class="text-slate-400 line-through px-2 decoration-red-500">「過時的單機小遊戲」</span>，將自己定位為<span class="text-amber-300 px-2 text-2xl font-bold border-b-2 border-amber-300">「現代化教育機構的必備基礎建設」</span>。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section V: Strategy -->
+    <section id="strategy" class="py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="gsap-reveal mb-16">
+                <span class="text-brand-orange font-bold text-lg tracking-widest block mb-2">SECTION 05</span>
+                <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-12">五、 制定平台與內容策略</h2>
+            </div>
+
+            <!-- Platform Strategy -->
+            <div class="mb-20">
+                <h3 class="text-2xl font-serif font-bold text-white mb-8 border-l-4 border-brand-orange pl-4 gsap-reveal">1. 平台佈局重點</h3>
+                <div class="grid lg:grid-cols-3 gap-6">
+                    <div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 gsap-reveal hover:bg-slate-800 transition-colors">
+                        <div class="w-12 h-12 bg-[#1877F2]/20 rounded-lg flex items-center justify-center mb-6">
+                            <span class="text-[#1877F2] font-bold text-xl">FB</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">Facebook 粉絲專頁與社團 <span class="text-sm font-normal text-slate-400 bg-slate-700 px-2 py-1 rounded ml-2">主力</span></h4>
+                        <ul class="text-[16px] text-slate-300 space-y-3">
+                            <li><strong class="text-white">粉專：</strong> 作為官方信任感的基石，發佈系統更新、客戶成功案例、教育趨勢觀察。</li>
+                            <li><strong class="text-white">社團操作：</strong> 潛入各大「英語教學討論區」、「補習班經營者聯盟」等 FB 社團，以「解決老師痛點」的角度分享軟體實測，而非生硬推銷。</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 gsap-reveal hover:bg-slate-800 transition-colors">
+                        <div class="w-12 h-12 bg-[#06C755]/20 rounded-lg flex items-center justify-center mb-6">
+                            <span class="text-[#06C755] font-bold text-xl">LINE</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">LINE 官方帳號 <span class="text-sm font-normal text-brand-orange bg-brand-orange/20 px-2 py-1 rounded ml-2">轉換收口</span></h4>
+                        <p class="text-[16px] text-slate-300">所有的社群 Call-to-Action (CTA) 都引導至 LINE，設定自動回覆機器人，提供「免費獲取 AI 備課指南」或「預約專人 Demo」。</p>
+                    </div>
+                    <div class="bg-slate-800/50 p-8 rounded-2xl border border-slate-700 gsap-reveal hover:bg-slate-800 transition-colors">
+                        <div class="w-12 h-12 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] opacity-80 rounded-lg flex items-center justify-center mb-6">
+                            <span class="text-white font-bold text-xl">IG/YT</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">Instagram / YouTube Shorts <span class="text-sm font-normal text-slate-400 bg-slate-700 px-2 py-1 rounded ml-2">輔助展示</span></h4>
+                        <p class="text-[16px] text-slate-300">利用短影音實際操作「AI 如何抓出發音錯誤」、「一鍵批改 30 人作業有多爽」，用視覺震撼力吸引老師。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Funnel -->
+            <div>
+                <h3 class="text-2xl font-serif font-bold text-white mb-8 border-l-4 border-brand-orange pl-4 gsap-reveal">2. 內容漏斗企劃 (Content Pillars)</h3>
+                <div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-700 before:to-transparent">
+                    
+                    <!-- Top Funnel -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active gsap-reveal">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0b1120] bg-slate-700 text-slate-300 group-[.is-active]:bg-brand-orange group-[.is-active]:text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow shadow-slate-900 font-bold z-10 text-sm">Top</div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-2xl border border-slate-700">
+                            <h4 class="font-bold text-white text-xl mb-1">漏斗頂端 <span class="text-brand-orange text-sm font-normal">(引起共鳴 - 打中痛點)</span></h4>
+                            <div class="mt-4 space-y-3 text-[16px]">
+                                <p><strong class="text-slate-300 block mb-1">🎯 話題：</strong> <span class="text-slate-400">「英語老師的深夜悲歌：永遠改不完的錄音作業」、「補習班招生季：你拿什麼證明孩子的進步？」</span></p>
+                                <p><strong class="text-slate-300 block mb-1">🎨 形式：</strong> <span class="text-slate-400">迷因圖 (Meme)、單頁圖文、短影音痛點情境劇。</span></p>
+                                <p><strong class="text-slate-300 block mb-1">💡 目的：</strong> <span class="text-amber-200 bg-amber-900/30 px-2 py-0.5 rounded">吸引共鳴，讓受眾覺得「你懂我」。</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mid Funnel -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active gsap-reveal">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0b1120] bg-slate-700 text-slate-300 group-[.is-active]:bg-amber-500 group-[.is-active]:text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow shadow-slate-900 font-bold z-10 text-sm">Mid</div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-2xl border border-slate-700">
+                            <h4 class="font-bold text-white text-xl mb-1">漏斗中段 <span class="text-amber-500 text-sm font-normal">(建立權威 - 產品展示)</span></h4>
+                            <div class="mt-4 space-y-3 text-[16px]">
+                                <p><strong class="text-slate-300 block mb-1">🎯 話題：</strong> <span class="text-slate-400">「告別零散工具！為什麼你需要一套教學 POS 系統？」、「實測：艾賓浩斯記憶法如何讓學生單字量翻倍？」</span></p>
+                                <p><strong class="text-slate-300 block mb-1">🎨 形式：</strong> <span class="text-slate-400">懶人包 (如您提供的競品比較表 IMG_9678 重製版)、產品介面實操影片 (Screen recording)、吉祥物教學圖文。</span></p>
+                                <p><strong class="text-slate-300 block mb-1">💡 目的：</strong> <span class="text-amber-200 bg-amber-900/30 px-2 py-0.5 rounded">展示實力，強調 AI 語音與一鍵批改的精準度。</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Funnel -->
+                    <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active gsap-reveal">
+                        <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-[#0b1120] bg-slate-700 text-slate-300 group-[.is-active]:bg-brand-green group-[.is-active]:text-white shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow shadow-slate-900 font-bold z-10 text-sm">Bot</div>
+                        <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] glass-card p-6 rounded-2xl border border-brand-green/50 bg-brand-green/10">
+                            <h4 class="font-bold text-white text-xl mb-1">漏斗底端 <span class="text-emerald-400 text-sm font-normal">(促動轉換 - 臨門一腳)</span></h4>
+                            <div class="mt-4 space-y-3 text-[16px]">
+                                <p><strong class="text-slate-300 block mb-1">🎯 話題：</strong> <span class="text-slate-400">成功案例分享 (Case Study)：「XX美語導入 Duotopia 兩個月，教師備課時間減少 50% 的秘密」、「如何產出讓家長秒續費的學習分析報告？」。</span></p>
+                                <p><strong class="text-slate-300 block mb-1">🎨 形式：</strong> <span class="text-slate-400">客戶見證影片、數據對比圖表、限時免費 Demo 邀請。</span></p>
+                                <p><strong class="text-slate-300 block mb-1">💡 目的：</strong> <span class="text-emerald-300 bg-emerald-900/30 px-2 py-0.5 rounded font-bold">消除疑慮，推動決策者加 LINE 諮詢。</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#050810] py-12 border-t border-slate-800 text-center">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-serif font-bold text-2xl tracking-widest text-white mb-4">DUOTOPIA<span class="text-brand-orange">.</span></h2>
+            <p class="text-slate-500 text-sm">策略報告為內部高階機密，請妥善保管。</p>
+        </div>
+    </footer>
+
+    <!-- GSAP Animation Logic -->
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Style navbar on scroll
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('shadow-lg');
+                } else {
+                    navbar.classList.remove('shadow-lg');
+                }
+            });
+
+            // Universal Fade-in Up Animation
+            gsap.utils.toArray('.gsap-reveal').forEach(function(elem) {
+                gsap.fromTo(elem, 
+                    { 
+                        autoAlpha: 0, 
+                        y: 40 
+                    },
+                    {
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 85%", // Animation triggers when element top hits 85% of viewport
+                        },
+                        duration: 1, 
+                        autoAlpha: 1, 
+                        y: 0, 
+                        ease: "power3.out"
+                    }
+                );
+            });
+        });
+    </script>
+
+    <!-- 絕對關鍵：全域事件監聽攔截腳本 (Google Sites iframe fix) -->
+    <script>
+        document.addEventListener('click', function (e) {
+            const anchor = e.target.closest('a[href^="#"]');
+            if (!anchor) return;
+            const href = anchor.getAttribute('href');
+            if (href.length > 1) {
+                const targetId = href.slice(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
